@@ -29,7 +29,7 @@ local root_manifest = dofile(ROOT.."/meta/manifest.lua")
 for _, manifest_path in ipairs(root_manifest.systems or {}) do
   ensure_dir(manifest_path)
   fetch(manifest_path)
-  local manifest = dofile(manifest_path)
+  local manifest = dofile(ROOT..manifest_path)
   for _, file in ipairs(manifest.files or {}) do
     ensure_dir(file)
     fetch(file)
