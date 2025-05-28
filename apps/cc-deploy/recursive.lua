@@ -1,7 +1,7 @@
 -- apps/cc-deploy/recursive.lua
 -- Helpers for nested manifests
 
-local require_mod = require("..modules.cc-utils.require")
+local require_mod = require("modules.cc-utils.require")
 
 local M = {}
 
