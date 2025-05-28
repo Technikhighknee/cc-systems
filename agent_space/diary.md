@@ -20,3 +20,7 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 ## 2025-05-31
 - Consolidated deploy modules under `apps/cc-deploy`.
 - Removed deprecated `modules/ccdeploy`.
+
+## 2025-06-01
+- Added `cc-hui` module providing monitor-aware UI helpers.
+- Refactored `cc-deploy` to use this module and updated its manifest.

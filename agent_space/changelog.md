@@ -1,3 +1,7 @@
+## 0.2.3 — cc-hui integration
+- Added `modules/cc-hui` with basic monitor-aware UI.
+- Refactored `cc-deploy` to use it and updated manifest.
+
 ## 0.2.2 — installer logic consolidated
 - Moved deploy modules into `apps/cc-deploy`.
 - Removed obsolete `modules/ccdeploy` directory.
