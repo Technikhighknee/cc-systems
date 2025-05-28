@@ -2,16 +2,6 @@
 
 local BASE = "https://raw.githubusercontent.com/Technikhighknee/cc-systems/main/"
 local ROOT = "cc-systems"
-local FILES = {
-  "meta/manifest.lua",
-  "apps/cc-deploy/meta/manifest.lua",
-  "apps/cc-deploy/init.lua",
-  "apps/cc-deploy/install.lua",
-  "apps/cc-deploy/registry.lua",
-  "apps/cc-deploy/recursive.lua",
-  "modules/cc-utils/require.lua",
-  "modules/cc-hui/ui.lua",
-}
 
 local function ensure_dir(path)
   local dir = fs.getDir(path)
@@ -20,17 +10,30 @@ local function ensure_dir(path)
   end
 end
 
+local function fetch(path)
+  local url = BASE .. path
+  if fs.exists(path) then fs.delete(path) end
+  print("Fetching " .. url)
+  shell.run("wget", url, path)
+end
+
 if not fs.exists(ROOT) then
   fs.makeDir(ROOT)
 end
 shell.setDir(ROOT)
 
-for _, file in ipairs(FILES) do
-  local url = BASE .. file
-  ensure_dir(file)
-  print("Fetching " .. url)
-  if fs.exists(file) then fs.delete(file) end
-  shell.run("wget", url, file)
+ensure_dir("meta/manifest.lua")
+fetch("meta/manifest.lua")
+local root_manifest = dofile("meta/manifest.lua")
+
+for _, manifest_path in ipairs(root_manifest.systems or {}) do
+  ensure_dir(manifest_path)
+  fetch(manifest_path)
+  local manifest = dofile(manifest_path)
+  for _, file in ipairs(manifest.files or {}) do
+    ensure_dir(file)
+    fetch(file)
+  end
 end
 
 shell.run("apps/cc-deploy/init.lua")
