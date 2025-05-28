@@ -7,7 +7,7 @@ local function load(name)
   if loaded[name] then
     return loaded[name]
   end
-  local path = name:gsub('%.', '/') .. '.lua'
+  local path = "cc-systems/" .. name:gsub('%.', '/') .. '.lua'
   if not fs.exists(path) then
     error('module not found: ' .. name)
   end

@@ -1,13 +1,13 @@
 -- apps/cc-deploy/init.lua
 -- Simple terminal UI for installing systems
 
-local require_mod = require("..modules.cc-utils.require")
+local require_mod = dofile("cc-systems/modules/cc-utils/require.lua")
 local hui = require_mod("modules.cc-hui.ui")
 local deploy = require_mod("apps.cc-deploy.install")
 
 hui.init()
 
-local root_manifest = require("meta.manifest")
+local root_manifest = dofile("cc-systems/meta/manifest.lua")
 
 local function choose(options)
   return hui.choose(options, "Select system: ")
