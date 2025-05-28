@@ -2,7 +2,7 @@
 -- Simple terminal UI for installing systems
 
 local require_mod = require("..modules.cc-utils.require")
-local deploy = require("deploy")
+local deploy = require_mod("apps.cc-deploy.install")
 
 local monitor
 if peripheral and peripheral.find then

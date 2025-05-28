@@ -1,3 +1,7 @@
+## 0.2.2 — installer logic consolidated
+- Moved deploy modules into `apps/cc-deploy`.
+- Removed obsolete `modules/ccdeploy` directory.
+
 ## 0.2.1 — cc-deploy promoted to app
 - Updated documentation for `cc-{name}` naming.
 - Added monitor-friendly UI and integration test.

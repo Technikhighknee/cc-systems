@@ -16,3 +16,7 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 
 ## 2025-05-30
 - Introduced BECOMINGS for cc-deploy and documented current focus.
+
+## 2025-05-31
+- Consolidated deploy modules under `apps/cc-deploy`.
+- Removed deprecated `modules/ccdeploy`.
