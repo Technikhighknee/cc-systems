@@ -1,22 +1,22 @@
-# GOAL — ccdeploy (Bridge to In-World Systems)
+# GOAL — cc-deploy (Bridge to In-World Systems)
 
 ## Essence
-`ccdeploy` is not a module.
+`cc-deploy` is not a module.
 It is the **threshold** through which ComputerCraft systems enter the Minecraft world.
 
 It appears on first contact — then hands over control.
 It allows players to explore, install, and update systems without typing URLs or managing code.
 
-`ccdeploy` is not a manager.
+`cc-deploy` is not a manager.
 It is not an agent.
-It is a **tool**, a **transition**, a **departure point**.
+It is an **app**, a **transition**, a **departure point**.
 
 It serves players, not developers.
 It helps in-world systems appear — and gets out of the way.
 
 ## The World It Opens
 
-A player installs `ccdeploy` once — and from then on, can install entire systems that:
+A player installs `cc-deploy` once — and from then on, can install entire systems that:
 
 - 📺 Show welcoming interfaces that feel rich and polished, yet required no technical setup.
 - 🧠 Adapt to the presence (or absence) of screens, adjusting layouts live without crashing.
@@ -44,7 +44,7 @@ And you, the builder, publish them into the Public Domain — so that others, an
 - See `meta/MANIFEST_FORMAT.md` for full specification.
 - Installation requires no code knowledge
 
-### ⚙️ 2. `ccdeploy` loads from `startup.lua` by default
+### ⚙️ 2. `cc-deploy` loads from `startup.lua` by default
 - It lives at the root
 - After another system takes over, it is replaced
 - It can be restored or reinstalled manually if needed
@@ -69,19 +69,19 @@ And you, the builder, publish them into the Public Domain — so that others, an
 
 Each of the following files should be described in its own `meta/manifest.lua`, using the structure defined in `meta/MANIFEST_FORMAT.md`.
 
-### `libraries/ccdeploy/init.lua`
-Barrel exposing install and update
+### `apps/cc-deploy/init.lua`
+Installer interface and logic
 
-### `libraries/ccdeploy/install.lua`
+### `modules/ccdeploy/install.lua`
 Core installer logic
 
-### `libraries/ccdeploy/registry.lua`
+### `modules/ccdeploy/registry.lua`
 Local record of installed components
 
-### `libraries/ccdeploy/recursive.lua`
+### `modules/ccdeploy/recursive.lua`
 Handles nested manifests (optional)
 
-### `libraries/ccutils/require.lua`
+### `modules/cc-utils/require.lua`
 Minimal dependency loader
 
 ---
@@ -95,4 +95,4 @@ Minimal dependency loader
 
 ---
 
-This goal ends when `ccdeploy` vanishes — because the world it opened has begun.
+This goal ends when `cc-deploy` vanishes — because the world it opened has begun.

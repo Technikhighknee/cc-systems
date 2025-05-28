@@ -2,7 +2,7 @@
 return {
   id = "cc-deploy",
   type = "app",
-  version = "0.2.0",
+  version = "0.2.1",
   description = "Installer for cc-systems",
   entry = "apps/cc-deploy/init.lua",
   files = {

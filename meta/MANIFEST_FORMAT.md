@@ -13,4 +13,4 @@ Optional fields:
 - `dependencies` — list of other manifests to install first
 - `type` — `tool`, `library`, or `app`
 
-Manifests allow tools like `ccdeploy` to reason about the system without loading any code.
+Manifests allow tools like `cc-deploy` to reason about the system without loading any code.

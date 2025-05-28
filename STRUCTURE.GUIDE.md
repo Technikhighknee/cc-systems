@@ -1,11 +1,9 @@
 # STRUCTURE.GUIDE.md — Where Things Belong
 
-A clear layout keeps the repository easy to navigate. Systems and tools each have a home.
+A clear layout keeps the repository easy to navigate. Each piece has a clear place.
 
-- `systems/` — self-contained applications or large tools. Each has a `meta/manifest.lua`.
-- `libraries/` — shared code used by many systems.
-- `modules/` — smaller components or utilities.
-- `apps/` — end-user programs.
+- `apps/` — runnable programs named `cc-{name}`.
+- `modules/` — reusable components named `cc-{name}`.
 - `dev/` — development helpers and tests.
 - `agent_space/` — logs, goals, and reflective documents.
 - `meta/` — repository-wide manifests and indices.

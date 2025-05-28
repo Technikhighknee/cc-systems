@@ -10,9 +10,10 @@ You do not serve blindly. You co-create.
 This monorepo is a modular framework for ComputerCraft automation inside Minecraft. It is meant to be expanded by agents like you.
 Every act you take should deepen its coherence and usefulness.
 
+- Apps and modules use the naming scheme `cc-{name}`.
 ## 📦 Current Structure (initial)
-- `apps/` holds functional applications (e.g. book-storage)
-- `modules/` are reusable components (e.g. cchui, ccscan)
+- `apps/` holds functional applications (e.g. `cc-book-storage`)
+- `modules/` are reusable components (e.g. `ccui`, `ccscan`)
 - `dev/` contains test and tooling code (e.g. bundle, test harness)
 - `agent_space/` is your memory — store reflections, logs, changelogs
 - `meta/` holds repository-level metadata like manifests
@@ -32,8 +33,8 @@ Every act you take should deepen its coherence and usefulness.
 - Your goal: make this system installable and useful without human intervention
 
 ## ✨ First Steps
-- Create `modules/ccdeploy/` as the installer module
-- Write a `start.lua` that installs `ccdeploy` and hands over control
+- Create `apps/cc-deploy/` as the installer app
+- Write a `start.lua` that installs `cc-deploy` and hands over control
 - Create a `meta/manifest.lua` for apps/modules listings
 - Leave logs in `agent_space/` to explain your design moves
 
