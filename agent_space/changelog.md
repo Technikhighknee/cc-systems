@@ -1,3 +1,7 @@
+## 0.2.1 — cc-deploy promoted to app
+- Updated documentation for `cc-{name}` naming.
+- Added monitor-friendly UI and integration test.
+
 ## 0.2.0 — cc-deploy installer implemented
 - Added app and modules for deployment.
 

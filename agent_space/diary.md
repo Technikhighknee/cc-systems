@@ -9,3 +9,7 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 - Implemented cc-deploy installer as an app under `apps/`.
 - Added modules `ccdeploy` and `cc-utils` with basic loader and install logic.
 - Introduced repository manifest and updated startup script.
+
+## 2025-05-29
+- Promoted cc-deploy to app; updated docs and manifest.
+- Added monitor-aware UI and integration test.
