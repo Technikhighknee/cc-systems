@@ -29,7 +29,7 @@ end
 function install.install(manifest, root)
   root = root or ""
   for _, file in ipairs(manifest.files or {}) do
-    local src = fs.combine(root, file)
+    local src = fs.combine("cc-systems", root, file)
     local dst = file
     copy(src, dst)
   end
