@@ -1,3 +1,5 @@
+# TODO: THIS needs a revisit, since we shifted from GOALS to 'BECOMINGS'.
+
 # GOALS.GUIDE.md — Speaking of Futures
 
 Goals describe where the system wants to go. They are written for humans and agents alike.
