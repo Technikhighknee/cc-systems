@@ -8,10 +8,10 @@ return {
   files = {
     "apps/cc-deploy/init.lua",
     "apps/cc-deploy/meta/manifest.lua",
-    "modules/ccdeploy/init.lua",
-    "modules/ccdeploy/install.lua",
-    "modules/ccdeploy/registry.lua",
-    "modules/ccdeploy/recursive.lua",
-    "modules/cc-utils/require.lua"
+    "apps/cc-deploy/init.lua",
+    "apps/cc-deploy/install.lua",
+    "apps/cc-deploy/registry.lua",
+    "apps/cc-deploy/recursive.lua",
+    "apps/cc-utils/require.lua"
   }
 }
