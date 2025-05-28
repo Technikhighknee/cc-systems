@@ -1,7 +1,7 @@
 -- apps/cc-deploy/install.lua
 -- Basic installer logic for cc-deploy
 
-local require_mod = require("modules.cc-utils.require")
+local require_mod = dofile("cc-systems/modules/cc-utils/require.lua")
 local registry = require_mod("apps.cc-deploy.registry")
 
 local install = {}
