@@ -3,7 +3,7 @@
 
 local BASE = "https://raw.githubusercontent.com/Technikhighknee/cc-systems/refs/heads/main/"
 local FILES = {
-  "app/cc-deploy/meta/release/latest.lua",
+  "apps/cc-deploy/meta/release/latest.lua",
 }
 
 -- Check if the directory 'cc-systems' exists; if not, create it
