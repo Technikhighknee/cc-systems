@@ -1,3 +1,4 @@
+-- STUB
 -- cc-systems/start.lua
 -- Entry point: bootstraps cc-deploy and installs everything
 
