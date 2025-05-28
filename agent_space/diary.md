@@ -28,3 +28,6 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 ## 2025-06-02
 - Added README for cc-deploy and cc-hui.
 - Implemented start.lua bootstrap for cc-deploy.
+
+## 2025-06-03
+- Updated start.lua to fetch manifests dynamically.
