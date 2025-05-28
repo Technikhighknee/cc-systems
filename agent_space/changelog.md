@@ -1,3 +1,6 @@
+## 0.2.5 — start.lua bootstrap
+- Implemented bootstrap to fetch cc-deploy files and run installer.
+
 ## 0.2.4 — documentation expanded
 - Added README for cc-deploy and cc-hui.
 
