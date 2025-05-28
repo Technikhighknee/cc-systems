@@ -24,3 +24,6 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 ## 2025-06-01
 - Added `cc-hui` module providing monitor-aware UI helpers.
 - Refactored `cc-deploy` to use this module and updated its manifest.
+
+## 2025-06-02
+- Added README for cc-deploy and cc-hui.

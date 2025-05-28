@@ -1,3 +1,6 @@
+## 0.2.4 — documentation expanded
+- Added README for cc-deploy and cc-hui.
+
 ## 0.2.3 — cc-hui integration
 - Added `modules/cc-hui` with basic monitor-aware UI.
 - Refactored `cc-deploy` to use it and updated manifest.
