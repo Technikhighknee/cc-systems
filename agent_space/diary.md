@@ -13,3 +13,6 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 ## 2025-05-29
 - Promoted cc-deploy to app; updated docs and manifest.
 - Added monitor-aware UI and integration test.
+
+## 2025-05-30
+- Introduced BECOMINGS for cc-deploy and documented current focus.
