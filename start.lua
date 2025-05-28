@@ -24,7 +24,7 @@ shell.setDir(ROOT)
 
 ensure_dir("meta/manifest.lua")
 fetch("meta/manifest.lua")
-local root_manifest = dofile("meta/manifest.lua")
+local root_manifest = dofile(ROOT.."/meta/manifest.lua")
 
 for _, manifest_path in ipairs(root_manifest.systems or {}) do
   ensure_dir(manifest_path)
