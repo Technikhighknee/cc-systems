@@ -1,25 +1,36 @@
--- STUB
--- cc-systems/start.lua
--- Entry point: bootstraps cc-deploy and installs everything
+-- start.lua -- bootstrapper for cc-deploy
 
-local BASE = "https://raw.githubusercontent.com/Technikhighknee/cc-systems/refs/heads/main/"
+local BASE = "https://raw.githubusercontent.com/Technikhighknee/cc-systems/main/"
+local ROOT = "cc-systems"
 local FILES = {
-  "apps/cc-deploy/meta/release/latest.lua",
+  "meta/manifest.lua",
+  "apps/cc-deploy/meta/manifest.lua",
+  "apps/cc-deploy/init.lua",
+  "apps/cc-deploy/install.lua",
+  "apps/cc-deploy/registry.lua",
+  "apps/cc-deploy/recursive.lua",
+  "modules/cc-utils/require.lua",
+  "modules/cc-hui/ui.lua",
 }
 
--- Check if the directory 'cc-systems' exists; if not, create it
-if not fs.exists("cc-systems") then
-  fs.makeDir("cc-systems")
+local function ensure_dir(path)
+  local dir = fs.getDir(path)
+  if dir ~= "" and not fs.exists(dir) then
+    fs.makeDir(dir)
+  end
 end
 
--- Change the current working directory to 'cc-systems'
-shell.setDir("cc-systems")
-
--- Download and run the latest release script
-for _, path in ipairs(FILES) do
-  local url = BASE .. path
-  local target = "start-install.lua"  -- oder smarter extrahieren
-  print("Downloading: " .. url)
-  shell.run("wget", url, target)
-  shell.run(target)
+if not fs.exists(ROOT) then
+  fs.makeDir(ROOT)
 end
+shell.setDir(ROOT)
+
+for _, file in ipairs(FILES) do
+  local url = BASE .. file
+  ensure_dir(file)
+  print("Fetching " .. url)
+  if fs.exists(file) then fs.delete(file) end
+  shell.run("wget", url, file)
+end
+
+shell.run("apps/cc-deploy/init.lua")
