@@ -1,8 +1,8 @@
 -- apps/cc-deploy/init.lua
 -- Simple terminal UI for installing systems
 
-local require_mod = require("modules.cc-utils.require")
-local deploy = require_mod("modules.ccdeploy.init")
+local require_mod = require("..modules.cc-utils.require")
+local deploy = require("deploy")
 
 local monitor
 if peripheral and peripheral.find then
@@ -30,7 +30,7 @@ local function mwrite(text)
   end
 end
 
-local root_manifest = require_mod("meta.manifest")
+local root_manifest = require("meta.manifest")
 
 local function choose(options)
   for i, opt in ipairs(options) do

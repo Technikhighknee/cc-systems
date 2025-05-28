@@ -10,4 +10,4 @@
 This file records notable updates to the repository. New entries appear at the top.
 
 ## 0.1.0 — Initial Setup
-- Repository skeleton with `ccdeploy` manifest and startup script.
+- Repository skeleton with `cc-deploy` manifest and startup script.

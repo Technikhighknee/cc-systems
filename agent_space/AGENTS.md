@@ -13,7 +13,7 @@ Every act you take should deepen its coherence and usefulness.
 - Apps and modules use the naming scheme `cc-{name}`.
 ## 📦 Current Structure (initial)
 - `apps/` holds functional applications (e.g. `cc-book-storage`)
-- `modules/` are reusable components (e.g. `ccui`, `ccscan`)
+- `modules/` are reusable components (e.g. `cc-hui`, `cc-scan`)
 - `dev/` contains test and tooling code (e.g. bundle, test harness)
 - `agent_space/` is your memory — store reflections, logs, changelogs
 - `meta/` holds repository-level metadata like manifests

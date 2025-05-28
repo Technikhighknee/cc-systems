@@ -72,16 +72,16 @@ Each of the following files should be described in its own `meta/manifest.lua`, 
 ### `apps/cc-deploy/init.lua`
 Installer interface and logic
 
-### `modules/ccdeploy/install.lua`
+### `apps/cc-deploy/install.lua`
 Core installer logic
 
-### `modules/ccdeploy/registry.lua`
+### `apps/cc-deploy/registry.lua`
 Local record of installed components
 
-### `modules/ccdeploy/recursive.lua`
+### `apps/cc-deploy/recursive.lua`
 Handles nested manifests (optional)
 
-### `modules/cc-utils/require.lua`
+### `apps/cc-utils/require.lua`
 Minimal dependency loader
 
 ---
