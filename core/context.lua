@@ -1,10 +1,19 @@
--- context.lua
+-- context.lua - runtime module system for ComputerCraft
+
 _G.context = _G.context or {}
 
-context._ROOT = ''
-context._loadedFiles = {}
+-- root directory for resolving relative paths
+context._ROOT = context._ROOT or ''
 
-context._loadFile = function (path, name) 
+-- bookkeeping for diagnostics
+context._loadedFiles = context._loadedFiles or {}
+
+-- registered modules
+context._modules = context._modules or {}
+
+--- Load and execute a Lua file relative to ROOT.
+-- Returns whatever value the file provides.
+local function loadFile(path)
   if not path:match("%.lua$") then
     path = path .. ".lua"
   end
@@ -12,7 +21,6 @@ context._loadFile = function (path, name)
   local fullPath = context._ROOT .. path
   print("Loading file: " .. fullPath)
 
-  -- Statt loadfile:
   local file = fs.open(fullPath, "r")
   assert(file, "File does not exist: " .. fullPath)
   local content = file.readAll()
@@ -21,77 +29,78 @@ context._loadFile = function (path, name)
   local chunk = assert(load(content, "@" .. fullPath, "t", _G), "Failed to load Lua file: " .. fullPath)
   local mod = chunk()
 
-  table.insert(context._loadedFiles, {
-    name = name,
-    path = path
-  })
-
-  if name then
-    context[name] = mod
-  end
-
+  table.insert(context._loadedFiles, path)
   return mod
 end
 
--- load a single module and store under a key
-context._load = function(name, path)
-  local module = context._loadFile(path, name)
-  print(type(module), "loaded as", name)
+context._loadFile = loadFile
 
-  if type(context[name]) == "table" then
-    for k, v in pairs(module) do
-      context[name][k] = v
-    end
-  else
-    context[name] = module
-  end
+--- Register a module directory under a key.
+-- Files are loaded on first use via context.use().
+function context.registerModule(name, dir)
+  assert(type(name) == "string", "module name must be string")
+  assert(type(dir) == "string", "module directory must be string")
+  dir = dir:gsub("/$", "")
+
+  context._modules[name] = {dir = dir, loaded = false, entry = nil}
+  context[name] = context[name] or {}
 end
 
+--- Internal: load all Lua files for a module.
+local function loadModuleFiles(name)
+  local info = context._modules[name]
+  assert(info, "Module '" .. name .. "' not registered")
+  if info.loaded or info.loading then return end
+  info.loading = true
 
--- helper function to load files recursively
-local function loadRecursive(relativeDir)
-  local result = {}
-
-  local fullDir = context._ROOT .. relativeDir
+  local base = info.dir
+  local fullDir = context._ROOT .. base
 
   for _, file in ipairs(fs.list(fullDir)) do
-    local relativePath = relativeDir .. "/" .. file
-    local fullPath = context._ROOT .. relativePath
-  
+    local rel = base .. "/" .. file
+    local fullPath = fullDir .. "/" .. file
+
     if fs.isDir(fullPath) then
-      result[file] = loadRecursive(relativePath)
-  
-    elseif file == "init.lua" then
-      local mod = context._loadFile(relativePath)
-      result["init"] = mod
-  
+      -- ignore sub directories for now
+
     elseif file:match("%.lua$") then
-      local name = file:gsub("%.lua$", "")
-      result[name] = context._loadFile(relativePath)
+      local key = file:gsub("%.lua$", "")
+      local result = loadFile(rel)
+      if type(result) == "function" then
+        result = result()
+      end
+
+      if key == "init" then
+        info.entry = result
+      else
+        context[name][key] = result
+      end
     end
   end
 
-  return result
+  info.loaded = true
+  info.loading = nil
 end
 
-
-context._registerModule = function (directory, key)
-  local M = loadRecursive(directory)
-  context[key] = M
-  return M
+--- Load a module and return its table.
+function context.use(name)
+  loadModuleFiles(name)
+  return context[name]
 end
 
-
-context._startApp = function (name)
-  local init = context[name].init
-  assert(type(init) == "function", "Application '" .. name .. "' not found or not runnable")
-  init()
+--- Execute the entry function of a module if it exists.
+function context.runModule(name, ...)
+  local mod = context.use(name)
+  local info = context._modules[name]
+  local entry = info and info.entry
+  if type(entry) == "function" then
+    return entry(...)
+  end
 end
 
-context._use = function (key)
-  local m = context[key]
-  return m.init or m
-end
-
+-- compatibility wrappers for old API
+context._registerModule = context.registerModule
+context._startApp = context.runModule
+context._use = context.use
 
 return context
