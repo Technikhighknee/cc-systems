@@ -1,64 +1,55 @@
 -- apps/cc-deploy/init.lua
--- Simple terminal UI for installing systems
+-- Terminal interface for installing systems
 
-return function (context)
-  return function ()
-    local context = context or _G.context
+return function(mod_context)
+  local context = mod_context or _G.context
 
+  local function load_manifest(path)
+    local h = fs.open(path, "r")
+    if not h then error("missing manifest: " .. path) end
+    local data = h.readAll()
+    h.close()
+    return assert(load(data, "@" .. path))()
+  end
+
+  local function choose(options)
     local hui = context._use("cc-hui")
-    local deploy = context["cc-deploy"]
+    return hui.choose(options, "Select system: ")
+  end
+
+  local function init()
+    local hui = context._use("cc-hui")
+    local installer = context["cc-deploy"].install
+    local registry = context["cc-deploy"].registry
 
     hui.init()
+    hui.clear()
+    hui.print("CC Deploy - System Installer")
 
-    local function choose(options)
-      return hui.choose(options, "Select system: ")
+    local root = load_manifest("meta/manifest.lua")
+    local systems = {}
+    for _, entry in ipairs(root.systems or {}) do
+      table.insert(systems, load_manifest(entry))
     end
+    table.insert(systems, {id = "exit", label = "Exit"})
 
-    -- local function load_manifest(path)
-    --   local key = path:gsub("[/%.]", "_")
-    --   if not context[key] then
-    --     context._load(key, path)
-    --   end
-    --   return context[key]
-    -- end
+    local choice = choose(systems)
+    if not choice or choice.id == "exit" then return end
 
-    local function main()
-      hui.clear()
-      hui.print("CC Deploy - System Installer")
-      local choice = choose({
-        {id = "cc-deploy", label = "CC Deploy"},
-        {id = "cc-hui", label = "CC Hui"},
-        {id = "exit", label = "Exit"}
-      })
-
-      -- local systems = {}
-      -- for _, entry in ipairs(root_manifest.systems or {}) do
-      --   table.insert(systems, load_manifest(entry))
-      -- end
-
-      -- if #systems == 0 then
-      --   hui.print("No systems available.")
-      --   return
-      -- end
-
-      -- local choice = choose(systems)
-      -- if not choice then return end
-
-      -- hui.print("Installing " .. choice.id .. "...")
-      -- deploy.install(choice, "")
-      -- if choice.entry then
-      --   local f = fs.open("startup.lua", "w")
-      --   f.write("shell.run('" .. choice.entry .. "')\n")
-      --   f.close()
-      --   hui.print("Startup updated -> " .. choice.entry)
-      -- end
-      -- hui.print("Done.")
-      -- hui.waitForInput("Press any key to reboot...")
-      -- os.reboot()
-
-      main()
+    hui.print("Installing " .. choice.id .. "...")
+    installer.install(choice, "")
+    if choice.entry then
+      local f = fs.open("startup.lua", "w")
+      f.write("shell.run('" .. choice.entry .. "')\n")
+      f.close()
+      hui.print("Startup updated -> " .. choice.entry)
     end
-    main()
+    registry.record(choice.id, choice.version or "0")
+    hui.print("Done.")
+    hui.waitForInput("Press any key to reboot...")
+    os.reboot()
   end
+
+  return init
 end
 

@@ -1,7 +1,15 @@
--- return function ()
---   local context = _G.context or {}
-  
---   context['cc-utils'].sayHello = context._loadFile('sayHello', 'modules/cc-utils/sayHello.lua')
---   context['cc-utils'].map = context._loadFile('map', 'modules/cc-utils/map.lua')
+-- modules/cc-utils/init.lua
+-- Utility helpers shared across cc-systems
 
--- end
+local utils = {}
+
+-- Simple loader that defers to context
+function utils.require(path)
+  return context._loadFile(path)
+end
+
+return function()
+  context = _G.context
+  return utils
+end
+
