@@ -1,6 +1,7 @@
 -- meta/manifest.lua
 -- Repository systems listing
 return {
+  version = "0.1.0",
   core = {
     "context.lua",
   },
@@ -13,3 +14,5 @@ return {
   }
 }
 
+-- TODO: Automatically generate this manifest from the actual files in the repository
+-- REFACTOR: Discover what a true manifest should look like
