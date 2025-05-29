@@ -65,4 +65,7 @@ function ui.waitForInput(prompt)
   end
 end
 
-return ui
+return function ()
+  context = _G.context 
+  return ui;
+end

@@ -1,7 +1,7 @@
 -- apps/cc-deploy/install.lua
 -- Basic installer logic for cc-deploy
 
-return function(context)
+return function()
   local registry = context.registry
 
   local install = {}

@@ -6,6 +6,7 @@ local URL = "http://kappaworld.de:14567/"
 local ROOT = "cc-systems/"
 
 
+
 -- helper functions
 local function get_absolute_path(relative_path)
   if relative_path:sub(1, #ROOT) == ROOT then
@@ -16,8 +17,13 @@ local function get_absolute_path(relative_path)
 end
 
 local function ensure_path_exists(path)
-  local dir = get_absolute_path(path)
+  local dir
+
+  path = get_absolute_path(path)
+  dir = fs.getDir(path)
+  
   if not fs.exists(dir) then
+    print("Creating directory: " .. dir)
     fs.makeDir(dir)
   end
 end
@@ -37,22 +43,28 @@ local function fetch_file(path, output_path)
   output_path = get_absolute_path(output_path or path)
   
   delete_if_exists(output_path)
+  ensure_path_exists(output_path)
 
-  shell.run("wget", url, output_path)
-  
-  if not fs.exists(output_path) then
+  -- shell.run("wget", url, output_path)
+  local file = http.get(url)
+  if not file then
     error("Failed to fetch file: " .. url)
   end
+
+  local output_file = fs.open(output_path, "w")
+  output_file.write(file.readAll())
+  output_file.close()
+  file.close()
   
-  -- load the file if it's a Lua script
-  if output_path:sub(-4) == ".lua" then
-    local file = fs.open(output_path, "r")
-    local content = file.readAll()
-    file.close()
-    return load(content, "@" .. output_path)()
-  else
-    return nil
-  end
+  -- -- load the file if it's a Lua script
+  -- if output_path:sub(-4) == ".lua" then
+  --   local file = fs.open(output_path, "r")
+  --   local content = file.readAll()
+  --   file.close()
+  --   return load(content, "@" .. output_path)()
+  -- else
+  --   return nil
+  -- end
 end
 
 local function delete_if_empty(path)
@@ -69,7 +81,15 @@ local function auto_update_startup_script()
 
   ensure_path_exists(TEMP_FILE)
 
-  shell.run("wget", FILE_URL, TEMP_FILE)
+  -- shell.run("wget", FILE_URL, TEMP_FILE)
+  local file = http.get(FILE_URL)
+  if not file then
+    error("Failed to fetch startup script: " .. FILE_URL)
+  end
+  local temp_file = fs.open(TEMP_FILE, "w")
+  temp_file.write(file.readAll())
+  temp_file.close()
+  file.close()
 
   if not fs.exists(ACTUAL_FILE) then
     fs.move(TEMP_FILE, ACTUAL_FILE)
@@ -96,14 +116,85 @@ if (auto_update_startup_script()) then
   os.reboot()
 end
 
+function load_manifest(path)
+  local file = fs.open(get_absolute_path(path), "r")
+  if not file then
+    error("Failed to open manifest file: " .. path)
+  end
+  local content = file.readAll() -- lua table
+  file.close()
 
--- initialization
-local manifest = fetch_file("meta/manifest.lua")
-
-for _, file in ipairs(manifest.files or {}) do
-  local content = fetch_file(file)
+  return load(content, "@" .. path)()
 end
 
-local context = dofile(ROOT .. "/context.lua")
-context.root = ROOT
-context._app(ROOT .. "apps/cc-deploy/init.lua")
+
+-- initialization
+local manifest_path = get_absolute_path("meta/manifest.lua")
+fetch_file(manifest_path)
+local manifest = load_manifest(manifest_path)
+
+-- download every core file
+for _, file in ipairs(manifest.core) do
+  local full_path = get_absolute_path(file)
+  ensure_path_exists(full_path)
+  fetch_file(full_path)
+end
+
+-- go through the systems and download every file
+for _, manifest_file in ipairs(manifest.systems or {}) do
+  fetch_file(manifest_file)
+  local manifest = load_manifest(manifest_file)
+  if type(manifest) ~= "table" or not manifest.id or not manifest.files then
+    error("Error in manifest for system: " .. system)
+    return
+  end
+
+  for _, file in ipairs(manifest.files) do
+    local full_path = get_absolute_path(file)
+    ensure_path_exists(full_path)
+    fetch_file(full_path)
+  end
+end
+
+for _, manifest_file in ipairs(manifest.modules or {}) do
+  fetch_file(manifest_file)
+  local manifest = load_manifest(manifest_file)
+  if type(manifest) ~= "table" or not manifest.id or not manifest.files then
+    error("Error in manifest for module: " .. module)
+    return
+  end
+
+  for _, file in ipairs(manifest.files) do
+    local full_path = get_absolute_path(file)
+    ensure_path_exists(full_path)
+    fetch_file(full_path)
+  end
+end
+
+dofile(ROOT .. "/context.lua")
+context = _G.context
+context._ROOT = ROOT
+
+local modules = {}
+table.insert(modules, {
+  path = "modules/cc-hui/",
+  name = "cc-hui"
+})
+table.insert(modules, { 
+  path = "apps/cc-deploy/",
+  name = "cc-deploy"
+})
+
+for _, mod in ipairs(modules) do
+  local name = mod.name
+  local path = mod.path
+  context._registerModule(path, name)
+end
+
+-- print("Loaded files:")
+-- for _, file in ipairs(context._loadedFiles) do
+--   print(file.name .. " - " .. file.path)
+--   print(context[file.name])
+-- end
+
+context._startApp('cc-deploy')
