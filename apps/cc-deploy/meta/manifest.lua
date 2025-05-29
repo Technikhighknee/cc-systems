@@ -12,6 +12,6 @@ return {
     "apps/cc-deploy/recursive.lua",
   },
   dependencies = {
-    "cc-hui",
+    "modules/cc-hui/meta/manifest.lua",
   }
 }

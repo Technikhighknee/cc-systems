@@ -53,3 +53,9 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 - Updated cc-hui manifest type and root manifest listing.
 - Reworked cc-deploy init to install systems from manifests and update startup.
 - Adjusted integration test to use context loader.
+
+## 2025-06-05
+- Added context._load helper for single-file modules.
+- Normalized cc-deploy recursive loader to use context and default parameter.
+- Updated cc-deploy manifest to reference cc-hui manifest path.
+- Extended integration test to verify recursive manifest collection.

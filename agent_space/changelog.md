@@ -1,5 +1,7 @@
 ## 0.2.6 — dynamic manifest bootstrap
 - start.lua now reads manifests to fetch files.
+## 0.2.7 — recursive manifest loading
+- Added context._load helper and improved recursive loader.
 ## 0.2.5 — start.lua bootstrap
 - Implemented bootstrap to fetch cc-deploy files and run installer.
 
