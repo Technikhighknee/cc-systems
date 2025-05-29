@@ -1,10 +1,10 @@
 -- apps/cc-deploy/app.lua
 -- Main entry point for the cc-deploy application
 
-return function () 
+return function ()
   local ccUtils = context["cc-utils"]
   local ccDeploy = context["cc-deploy"]
-  -- local ccHui = context["cc-hui"]
+  local ccHui = context._use and context._use("cc-hui")
 
   local function main () 
     -- ccHui.clear()
@@ -23,7 +23,17 @@ return function ()
     -- })
     -- ccHui.print("Welcome to CC Deploy!")
     -- ccHui.print("This is a placeholder for the main interface.")
-    print("Welcome to CC Deploy!")
-    print("This is a placeholder for the main interface.")
+    if ccHui then
+      ccHui.init()
+      ccHui.clear()
+      ccHui.print("Welcome to CC Deploy!")
+      ccHui.print("This is a placeholder for the main interface.")
+      ccHui.waitForInput("Press enter to exit")
+    else
+      print("Welcome to CC Deploy!")
+      print("This is a placeholder for the main interface.")
+    end
   end
+
+  return main
 end
