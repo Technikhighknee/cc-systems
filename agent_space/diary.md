@@ -47,3 +47,9 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 - Refactored apps/cc-deploy/install.lua to load via context.
 - Updated init.lua, recursive.lua, start.lua, and context.lua for context-driven loading.
 - Added waitForInput helper and adjusted tests to use context.
+
+## 2025-06-04
+- Introduced cc-utils module with simple loader and manifest.
+- Updated cc-hui manifest type and root manifest listing.
+- Reworked cc-deploy init to install systems from manifests and update startup.
+- Adjusted integration test to use context loader.
