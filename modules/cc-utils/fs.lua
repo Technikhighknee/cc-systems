@@ -1,8 +1,8 @@
 -- modules/cc-utils/fs.lua
 -- This module provides file system utilities for the cc-utils library.
 
-return function () 
-  local ccUtils = context("cc-utils")
+return function ()
+  local ccUtils = context._use("cc-utils")
   local _fs = {}
   
   function _fs.readFile (path)
@@ -28,18 +28,21 @@ return function ()
   end
 
 
-  function _fs.ensureParent(path) 
+  function _fs.ensureParent(path)
     assert(type(path) == "string", "Path must be a string")
     local parent = fs.getDir(path)
-    if not fs.exists(dir) then fs.makeDir(dir) end
+    if parent ~= "" and not fs.exists(parent) then
+      fs.makeDir(parent)
+    end
   end
 
   function _fs.getAbsolutePath(relative_path)
     assert(type(relative_path) == "string", "Relative path must be a string")
-    if relative_path:sub(1, #ROOT) == ROOT then
+    local root = context._ROOT
+    if relative_path:sub(1, #root) == root then
       return relative_path
     else
-      return ROOT .. relative_path
+      return root .. relative_path
     end
   end
  
@@ -55,4 +58,6 @@ return function ()
       fs.delete(path)
     end
   end
+
+  return _fs
 end
