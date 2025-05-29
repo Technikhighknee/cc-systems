@@ -85,8 +85,10 @@ term = term or {write=function() end, current=function() return {} end}
 function _G.write(txt) io.write(txt or "") end
 function _G.read() return "1" end
 shell = {run=function() end}
+os.reboot = function() end
 
-dofile("apps/cc-deploy/init.lua")
+local context = dofile("context.lua")
+context._app("apps/cc-deploy/init.lua")
 
 local f = io.open(tmp .. "/startup.lua", "r")
 assert(f, "startup.lua not written")

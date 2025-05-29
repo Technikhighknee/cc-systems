@@ -11,7 +11,6 @@ return {
     "apps/cc-deploy/install.lua",
     "apps/cc-deploy/registry.lua",
     "apps/cc-deploy/recursive.lua",
-    "modules/cc-utils/require.lua",
     "modules/cc-hui/ui.lua"
   }
 }
