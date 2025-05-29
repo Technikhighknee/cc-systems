@@ -1,14 +1,10 @@
 -- modules/cc-utils/factories.lua
 -- This module provides factory methods for creating various utility objects
 
-return function () 
+return function ()
   local ccUtils = context._use("cc-utils")
 
   local factories = {}
-
-  function factories.barrel.method(module, methodName)
-    return context[module][methodName] or ccUtils.placeholder.METHOD_NOT_IMPLEMENTED
-  end
 
   -- Barrels
   factories.barrel = function (options)
@@ -21,10 +17,14 @@ return function ()
       path = options.path,
       entry = options.entry or options.name,
     }
-    for _, method in ipairs(details.methods) do
-      ccUtils.factories.barrel.method(details.name, method)
+    for _, method in ipairs(options.methods) do
+      barrel[method] = factories.barrel.method(options.name, method)
     end
     return barrel
+  end
+
+  function factories.barrel.method(module, methodName)
+    return context[module][methodName] or ccUtils.placeholder.METHOD_NOT_IMPLEMENTED
   end
 
   return factories
