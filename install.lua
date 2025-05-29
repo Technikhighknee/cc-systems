@@ -1,11 +1,11 @@
 -- start.lua -- bootstrapper for cc-deploy
--- wget run http://kappaworld.de:14567/cc-systems/start.lua
+-- wget run http://kappaworld.de:14567/cc-systems/install.lua
 
 -- configuration
 local URL = "http://kappaworld.de:14567/"
 local ROOT = "cc-systems/"
 
--- helper functions
+-- helper functions 
 local function get_absolute_path(relative_path)
   if relative_path:sub(1, #ROOT) == ROOT then
     return relative_path
@@ -65,7 +65,7 @@ local function auto_update_startup_script()
   local TEMP_DIR = "temp/"
   local TEMP_FILE = TEMP_DIR .. "startup.lua"
   local ACTUAL_FILE = "startup.lua"
-  local FILE_URL = get_full_url("start.lua")
+  local FILE_URL = get_full_url("install.lua")
 
   ensure_path_exists(TEMP_FILE)
 
@@ -159,11 +159,15 @@ for _, manifest_file in ipairs(manifest.modules or {}) do
   end
 end
 
-dofile(ROOT .. "/context.lua")
+dofile(ROOT .. "/core/context.lua")
 context = _G.context
 context._ROOT = ROOT
 
 local modules = {}
+table.insert(modules, {
+  path = "modules/cc-utils/",
+  name = "cc-utils"
+})
 table.insert(modules, {
   path = "modules/cc-hui/",
   name = "cc-hui"
@@ -176,7 +180,7 @@ table.insert(modules, {
 for _, mod in ipairs(modules) do
   local name = mod.name
   local path = mod.path
-  context._registerModule(path, name)
+  context._registerModule(name, path)
 end
 
 -- print("Loaded files:")

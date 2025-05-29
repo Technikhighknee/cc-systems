@@ -8,10 +8,7 @@ return {
   files = {
     "apps/cc-deploy/init.lua",
     "apps/cc-deploy/app.lua",
-    "apps/cc-deploy/install.lua",
-    "apps/cc-deploy/registry.lua",
-    "apps/cc-deploy/recursive.lua",
-    "apps/cc-deploy/run.lua"
+    "meta/manifest.lua",
   },
   dependencies = {
     "modules/cc-hui/meta/manifest.lua",
