@@ -42,6 +42,8 @@ local function main()
     hui.print("Startup updated -> " .. choice.entry)
   end
   hui.print("Done.")
+  hui.waitForInput("Press any key to reboot...")
+  os.reboot()
 end
 
 main()
