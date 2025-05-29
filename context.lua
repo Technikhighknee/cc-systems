@@ -23,10 +23,17 @@ context._loadFile = function (path, name)
     path = path
   })
 
-  if name then 
+  if name then
     context[name] = mod
   end
 
+  return mod
+end
+
+-- load a single module and store under a key
+context._load = function(name, path)
+  local mod = context._loadFile(path, name)
+  context[name] = mod
   return mod
 end
 

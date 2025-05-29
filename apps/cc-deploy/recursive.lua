@@ -1,11 +1,17 @@
 -- apps/cc-deploy/recursive.lua
 -- Helpers for nested manifests
 
-return function(context)
+return function(mod_context)
+  local context = mod_context or _G.context
+
   local function load_manifest(path)
     local key = path:gsub("[/%.]", "_")
     if not context[key] then
-      context._load(key, path)
+      if context._load then
+        context._load(key, path)
+      else
+        context[key] = context._loadFile(path, key)
+      end
     end
     return context[key]
   end

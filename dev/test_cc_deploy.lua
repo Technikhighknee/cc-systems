@@ -120,6 +120,10 @@ context._registerModule("modules/cc-hui/", "cc-hui")
 context._registerModule("apps/cc-deploy/", "cc-deploy")
 context._startApp("cc-deploy")
 
+local manifest = dofile("apps/cc-deploy/meta/manifest.lua")
+local list = context["cc-deploy"].recursive.collect(manifest)
+assert(#list >= 2, "dependency not collected")
+
 local f = io.open(tmp .. "/startup.lua", "r")
 assert(f, "startup.lua not written")
 f:close()
