@@ -1,14 +1,16 @@
 -- modules/cc-utils/bootstrap.lua
 -- This module provides file system utilities for the cc-utils library.
 
-return function () 
-  local ccUtils = context("cc-utils")
+return function ()
+  local ccUtils = context._use("cc-utils")
   local bootstrap = {}
 
   function bootstrap.autoUpdateStartup(starScriptUrl, targetFile)
-    local ACTUAL_FILE = "startup.lua"
-    local FILE_URL = ccUtils.net.joinUrl(config.BASE_URL, "start.lua")
-  
+    assert(type(starScriptUrl) == "string", "starScriptUrl must be a string")
+
+    local ACTUAL_FILE = targetFile or "startup.lua"
+    local FILE_URL = starScriptUrl
+
     local tempContent = ccUtils.net.fetch(FILE_URL)
   
     if not fs.exists(ACTUAL_FILE) then

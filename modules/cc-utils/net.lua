@@ -1,8 +1,8 @@
 -- modules/cc-utils/net.lua
 -- This module provides network utilities for the cc-utils library.
 
-return function () 
-  local ccUtils = context("cc-utils")
+return function ()
+  local ccUtils = context._use("cc-utils")
   local net = {}
 
   function net.fetch(url)
