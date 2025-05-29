@@ -56,4 +56,13 @@ function ui.choose(options, prompt)
   if idx then return options[idx] end
 end
 
+function ui.waitForInput(prompt)
+  ui.write(prompt or "Press any key...")
+  read()
+  if ui.monitor then
+    local x, y = ui.monitor.getCursorPos()
+    ui.monitor.setCursorPos(1, y + 1)
+  end
+end
+
 return ui

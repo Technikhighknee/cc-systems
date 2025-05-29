@@ -1,20 +1,28 @@
 -- apps/cc-deploy/recursive.lua
 -- Helpers for nested manifests
 
-local require_mod = require("modules.cc-utils.require")
-
-local M = {}
-
-function M.collect(manifest, list)
-  list = list or {}
-  table.insert(list, manifest)
-  if manifest.dependencies then
-    for _, dep in ipairs(manifest.dependencies) do
-      local dm = require_mod(dep)
-      M.collect(dm, list)
+return function(context)
+  local function load_manifest(path)
+    local key = path:gsub("[/%.]", "_")
+    if not context[key] then
+      context._load(key, path)
     end
+    return context[key]
   end
-  return list
-end
 
-return M
+  local M = {}
+
+  function M.collect(manifest, list)
+    list = list or {}
+    table.insert(list, manifest)
+    if manifest.dependencies then
+      for _, dep in ipairs(manifest.dependencies) do
+        local dm = load_manifest(dep)
+        M.collect(dm, list)
+      end
+    end
+    return list
+  end
+
+  return M
+end

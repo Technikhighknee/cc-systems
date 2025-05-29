@@ -105,3 +105,5 @@ for _, file in ipairs(manifest.files or {}) do
 end
 
 local context = dofile(ROOT .. "/context.lua")
+context.root = ROOT
+context._app(ROOT .. "apps/cc-deploy/init.lua")

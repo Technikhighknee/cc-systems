@@ -1,10 +1,10 @@
 -- apps/cc-deploy/install.lua
 -- Basic installer logic for cc-deploy
 
-local require_mod = dofile("cc-systems/modules/cc-utils/require.lua")
-local registry = require_mod("apps.cc-deploy.registry")
+return function(context)
+  local registry = context.registry
 
-local install = {}
+  local install = {}
 
 local function ensureDir(path)
   local dir = fs.getDir(path)
@@ -26,18 +26,21 @@ local function copy(src, dst)
   out.close()
 end
 
-function install.install(manifest, root)
-  root = root or ""
-  for _, file in ipairs(manifest.files or {}) do
-    local src = fs.combine("cc-systems", root, file)
-    local dst = file
-    copy(src, dst)
+  function install.install(manifest, root)
+    root = root or ""
+    local base = context.root or ""
+    for _, file in ipairs(manifest.files or {}) do
+      local src = fs.combine(fs.combine(base, root), file)
+      local dst = file
+      copy(src, dst)
+    end
+    registry.record(manifest.id, manifest.version or "0")
   end
-  registry.record(manifest.id, manifest.version or "0")
-end
 
-function install.update(manifest, root)
-  install.install(manifest, root)
-end
 
-return install
+  function install.update(manifest, root)
+    install.install(manifest, root)
+  end
+
+  return install
+end

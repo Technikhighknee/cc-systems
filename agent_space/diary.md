@@ -40,3 +40,10 @@ Use this diary to briefly note structural or behavioural changes. Each entry sta
 
 ## 2025-05-29
 - From now on active development will happen on branch 'dev'
+
+## 2025-05-29
+- Scanned repo for legacy requires bypassing context.
+- Found: apps/cc-deploy/init.lua, apps/cc-deploy/install.lua, apps/cc-deploy/recursive.lua, dev/test_cc_deploy.lua.
+- Refactored apps/cc-deploy/install.lua to load via context.
+- Updated init.lua, recursive.lua, start.lua, and context.lua for context-driven loading.
+- Added waitForInput helper and adjusted tests to use context.
