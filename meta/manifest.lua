@@ -1,18 +1,23 @@
--- meta/manifest.lua
--- Repository systems listing
+-- cc-systems/meta/manifest.lua
+
 return {
-  version = "0.1.0",
+  version = "0.2.0",
+
   core = {
-    "context.lua",
-  },
-  modules = {
-    "modules/cc-hui/meta/manifest.lua",
+    "core/context.lua",
+    "modules/cc-utils/fs.lua",
+    "modules/cc-utils/net.lua",
+    "modules/cc-utils/manifest.lua",
+    "modules/cc-utils/init.lua",
     "modules/cc-utils/meta/manifest.lua",
   },
+
+  modules = {
+    "modules/cc-utils/meta/manifest.lua",
+    "modules/cc-hui/meta/manifest.lua",
+  },
+
   systems = {
-    "apps/cc-deploy/meta/manifest.lua"
+    "apps/cc-deploy/meta/manifest.lua",
   }
 }
-
--- TODO: Automatically generate this manifest from the actual files in the repository
--- REFACTOR: Discover what a true manifest should look like

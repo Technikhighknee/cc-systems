@@ -1,15 +1,14 @@
 -- modules/cc-utils/init.lua
--- Utility helpers shared across cc-systems
+-- Entry point for the cc-utils module
 
-local utils = {}
+return function ()
+  context["cc-utils"] = {}
 
--- Simple loader that defers to context
-function utils.require(path)
-  return context._loadFile(path)
+  context._load("cc-utils", "modules/cc-utils/fs.lua")
+  context._load("cc-utils", "modules/cc-utils/net.lua")
+  context._load("cc-utils", "modules/cc-utils/manifest.lua")
+  context._load("cc-utils", "modules/cc-utils/factories.lua")
+  context._load("cc-utils", "modules/cc-utils/placeholder.lua")
+  context._load("cc-utils", "modules/cc-utils/bootstrap.lua")
+
 end
-
-return function()
-  context = _G.context
-  return utils
-end
-

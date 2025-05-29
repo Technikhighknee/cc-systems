@@ -11,12 +11,15 @@ context._loadFile = function (path, name)
 
   local fullPath = context._ROOT .. path
   print("Loading file: " .. fullPath)
-  local chunk = assert(loadfile(fullPath), "Failed to load " .. fullPath)
-  local mod = chunk()
 
-  if type(mod) == 'function' then
-    mod = mod()
-  end
+  -- Statt loadfile:
+  local file = fs.open(fullPath, "r")
+  assert(file, "File does not exist: " .. fullPath)
+  local content = file.readAll()
+  file.close()
+
+  local chunk = assert(load(content, "@" .. fullPath, "t", _G), "Failed to load Lua file: " .. fullPath)
+  local mod = chunk()
 
   table.insert(context._loadedFiles, {
     name = name,
@@ -32,10 +35,18 @@ end
 
 -- load a single module and store under a key
 context._load = function(name, path)
-  local mod = context._loadFile(path, name)
-  context[name] = mod
-  return mod
+  local module = context._loadFile(path, name)
+  print(type(module), "loaded as", name)
+
+  if type(context[name]) == "table" then
+    for k, v in pairs(module) do
+      context[name][k] = v
+    end
+  else
+    context[name] = module
+  end
 end
+
 
 -- helper function to load files recursively
 local function loadRecursive(relativeDir)

@@ -10,6 +10,7 @@ return {
     "apps/cc-deploy/install.lua",
     "apps/cc-deploy/registry.lua",
     "apps/cc-deploy/recursive.lua",
+    "apps/cc-deploy/run.lua"
   },
   dependencies = {
     "modules/cc-hui/meta/manifest.lua",

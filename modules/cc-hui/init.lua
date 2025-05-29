@@ -1,7 +1,23 @@
--- modules/cc-hui/ui.lua
--- Minimal monitor-aware UI helpers
+-- modules/cc-hui/init.lua
+-- A human-usable interface for ComputerCraft 
 
-local ui = {monitor = nil}
+return function ()
+  local ccUtils = context._use("cc-utils")
+  
+  local M = ccUtils.factories.barrel({
+    name = "cc-hui",
+    path = context._ROOT .. "modules/cc-hui/",
+    methods = {
+      "clear",
+      "print",
+      "write",
+      "choose",
+      "waitForInput"
+    }
+  })
+end
+
+
 
 function ui.init()
   if peripheral and peripheral.find then

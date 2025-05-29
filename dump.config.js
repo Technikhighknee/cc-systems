@@ -20,3 +20,13 @@ export const includeMarkdown = {
     md: 'md',
   }
 }
+
+export const onlyMarkdown = {
+  outputFile: 'context-dump.md',
+  ignoredDirs: ['.git'],
+  ignoredPatterns: ['**/*.lua', '**/*.json', '**/*.sh'],
+  languageMap: {
+    md: 'md',
+    txt: 'txt'
+  }
+}

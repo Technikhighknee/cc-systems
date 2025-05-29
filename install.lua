@@ -5,8 +5,6 @@
 local URL = "http://kappaworld.de:14567/"
 local ROOT = "cc-systems/"
 
-
-
 -- helper functions
 local function get_absolute_path(relative_path)
   if relative_path:sub(1, #ROOT) == ROOT then
@@ -55,16 +53,6 @@ local function fetch_file(path, output_path)
   output_file.write(file.readAll())
   output_file.close()
   file.close()
-  
-  -- -- load the file if it's a Lua script
-  -- if output_path:sub(-4) == ".lua" then
-  --   local file = fs.open(output_path, "r")
-  --   local content = file.readAll()
-  --   file.close()
-  --   return load(content, "@" .. output_path)()
-  -- else
-  --   return nil
-  -- end
 end
 
 local function delete_if_empty(path)
